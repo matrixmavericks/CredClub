@@ -7,11 +7,18 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import seaborn as sns
 import aiml
 
+#conda create -n aiml_bot python=3.11
+#conda activate aiml_bot
+
+
 class CreditBuilderApp:
+
+
     def __init__(self, root):
         self.root = root
-        self.root.title("Credit Builder App")
+        self.root.title("CredClub")
         self.root.geometry("800x600")
+
 
         # Dictionary to hold user accounts
         self.users = {"admin": "adminpass"}  # Predefined admin account
@@ -26,8 +33,8 @@ class CreditBuilderApp:
         # Set custom style for better visuals
         self.style = ttk.Style()
         self.style.theme_use("clam")  # Use the "clam" theme
-        self.style.configure('TLabel', background='#000435', foreground='white', font=('Helvetica', 12)) # Increased font size and changed top bar color
-        self.style.configure('TButton', background='#2A2A2A', foreground='white', font=('Helvetica', 12, 'bold'))
+        self.style.configure('TLabel', background='#000435', foreground='white', font=('Helvetica', 20)) # Increased font size and changed top bar color
+        self.style.configure('TButton', background='#808080', foreground='white', font=('Helvetica', 12, 'bold'))
         self.style.configure('TFrame', background='#000435')
         self.style.map('TButton', background=[('active', '#AAAAAA')])
 
@@ -65,6 +72,7 @@ class CreditBuilderApp:
 
     def create_aiml_brain(self):
         # Predefined AIML patterns and responses
+
         aiml_brain = """
             + CLUB_MEMBERSHIP
                 - As a member of our credit score club, you can contribute to building a strong credit history by making regular payments and managing your finances responsibly.
@@ -87,11 +95,11 @@ class CreditBuilderApp:
 
         ttk.Label(frame, text="Username:", style='TLabel').grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
         self.username_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.username_var, font=('Helvetica', 10)).grid(row=0, column=1, padx=5, pady=5)
+        ttk.Entry(frame, textvariable=self.username_var, font=('Helvetica', 15)).grid(row=0, column=1, padx=5, pady=5)
 
         ttk.Label(frame, text="Password:", style='TLabel').grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
         self.password_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.password_var, show="*", font=('Helvetica', 10)).grid(row=1, column=1, padx=5, pady=5)
+        ttk.Entry(frame, textvariable=self.password_var, show="*", font=('Helvetica', 15)).grid(row=1, column=1, padx=5, pady=5)
 
         ttk.Button(frame, text="Login", command=self.login, style='TButton').grid(row=2, column=0, pady=5, sticky=tk.E)
         ttk.Button(frame, text="Register", command=self.register_user, style='TButton').grid(row=2, column=1, pady=5, sticky=tk.W)
@@ -130,11 +138,11 @@ class CreditBuilderApp:
 
         ttk.Label(frame, text="Club Name:", style='TLabel').grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
         self.club_name_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.club_name_var, font=('Helvetica', 10)).grid(row=0, column=1, padx=5, pady=5)
+        ttk.Entry(frame, textvariable=self.club_name_var, font=('Helvetica', 15)).grid(row=0, column=1, padx=5, pady=5)
 
         ttk.Label(frame, text="Membership Fee ($):", style='TLabel').grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
         self.membership_fee_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.membership_fee_var, font=('Helvetica', 10)).grid(row=1, column=1, padx=5, pady=5)
+        ttk.Entry(frame, textvariable=self.membership_fee_var, font=('Helvetica', 15)).grid(row=1, column=1, padx=5, pady=5)
 
         ttk.Button(frame, text="Create Club", command=self.create_club, style='TButton').grid(row=2, column=0, columnspan=2, pady=5)
 
@@ -156,34 +164,44 @@ class CreditBuilderApp:
         frame = ttk.Frame(self.tab_manage, padding=20, style='TFrame')
         frame.pack(expand=True, fill="both")
 
+        # Set a fixed width for the buttons
+        button_width = 20
+
         ttk.Label(frame, text="Select Club:", style='TLabel').grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
         self.club_selection_var = tk.StringVar()
         self.club_selection_dropdown = ttk.Combobox(frame, textvariable=self.club_selection_var, state="readonly")
         self.club_selection_dropdown["values"] = list(self.clubs.keys())
         self.club_selection_dropdown.grid(row=0, column=1, padx=5, pady=5)
 
-        ttk.Button(frame, text="Load Club Data", command=self.load_club_data, style='TButton').grid(row=0, column=2, padx=5, pady=5)
+        ttk.Button(frame, text="Load Club Data", command=self.load_club_data, style='TButton', width=button_width).grid(row=0, column=2, padx=5, pady=5)
 
-        ttk.Button(frame, text="Add Member", command=self.add_member, style='TButton').grid(row=1, column=0, padx=5, pady=5)
-        ttk.Button(frame, text="Remove Member", command=self.remove_member, style='TButton').grid(row=1, column=1, padx=5, pady=5)
-        ttk.Button(frame, text="Export Club Data", command=self.export_club_data, style='TButton').grid(row=1, column=2, padx=5, pady=5)
+        ttk.Button(frame, text="Add Member", command=self.add_member, style='TButton', width=button_width).grid(row=1, column=0, padx=5, pady=5)
+        ttk.Button(frame, text="Remove Member", command=self.remove_member, style='TButton', width=button_width).grid(row=1, column=1, padx=5, pady=5)
+        ttk.Button(frame, text="Export Club Data", command=self.export_club_data, style='TButton', width=button_width).grid(row=1, column=2, padx=5, pady=5)
 
         ttk.Label(frame, text="Member ID:", style='TLabel').grid(row=2, column=0, padx=5, pady=5, sticky=tk.W)
         self.member_id_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.member_id_var, font=('Helvetica', 10)).grid(row=2, column=1, padx=5, pady=5)
+        ttk.Entry(frame, textvariable=self.member_id_var, font=('Helvetica', 15)).grid(row=2, column=1, padx=5, pady=5)
 
         ttk.Label(frame, text="Amount:", style='TLabel').grid(row=3, column=0, padx=5, pady=5, sticky=tk.W)
         self.amount_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.amount_var, font=('Helvetica', 10)).grid(row=3, column=1, padx=5, pady=5)
+        ttk.Entry(frame, textvariable=self.amount_var, font=('Helvetica', 15)).grid(row=3, column=1, padx=5, pady=5)
 
-        ttk.Button(frame, text="Contribute", command=self.contribute, style='TButton').grid(row=4, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="Provide Loan", command=self.provide_loan, style='TButton').grid(row=5, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="View Member List", command=self.view_member_list, style='TButton').grid(row=6, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="View Member Details", command=self.view_member_details, style='TButton').grid(row=7, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="View Club Summary", command=self.view_club_summary, style='TButton').grid(row=8, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="Sort Member List", command=self.sort_member_list, style='TButton').grid(row=9, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="Search Member", command=self.search_member, style='TButton').grid(row=10, column=0, columnspan=2, pady=5)
-        ttk.Button(frame, text="Exit Club", command=self.exit_club, style='TButton').grid(row=11, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="Contribute", command=self.contribute, style='TButton', width=button_width).grid(row=4, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="Provide Loan", command=self.provide_loan, style='TButton', width=button_width).grid(row=5, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="View Member List", command=self.view_member_list, style='TButton', width=button_width).grid(row=6, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="View Member Details", command=self.view_member_details, style='TButton', width=button_width).grid(row=7, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="View Club Summary", command=self.view_club_summary, style='TButton', width=button_width).grid(row=8, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="Sort Member List", command=self.sort_member_list, style='TButton', width=button_width).grid(row=9, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="Search Member", command=self.search_member, style='TButton', width=button_width).grid(row=10, column=0, columnspan=2, pady=5)
+        ttk.Button(frame, text="Exit Club", command=self.exit_club, style='TButton', width=button_width).grid(row=11, column=0, columnspan=2, pady=5)
+
+
+
+
+
+
+
 
     def load_club_data(self):
         club_name = self.club_selection_var.get()
